@@ -23,7 +23,7 @@ const userSchema = mongoose.Schema(
     },
     profilePic: {
       type: String,
-      default: "",
+      default: "https://bit.ly/dan-abramov",
     },
     followers: {
       type: [String],
