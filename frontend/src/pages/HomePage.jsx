@@ -1,4 +1,4 @@
-import { Box, Flex, Spinner } from "@chakra-ui/react";
+import { Box, Flex, Heading, Spinner } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import useShowToast from "../hooks/useShowToast";
 import Post from "../components/Post";
@@ -44,9 +44,10 @@ const HomePage = () => {
           </Flex>
         )}
 
-        {posts.map((post) => (
-          <Post key={post._id} post={post} postedBy={post.postedBy} />
-        ))}
+        {Array.isArray(posts) &&
+          posts.map((post) => (
+            <Post key={post._id} post={post} postedBy={post.postedBy} />
+          ))}
       </Box>
       <Box
         flex={30}

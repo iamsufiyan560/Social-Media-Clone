@@ -32,11 +32,21 @@ function App() {
               element={user ? <UpdateProfilePage /> : <Navigate to="/auth" />}
             />
 
-            <Route path="/:username" element={<UserPage />}></Route>
+            <Route
+              path="/:username"
+              element={
+                user ? (
+                  <>
+                    <UserPage />
+                    <CreatePost />
+                  </>
+                ) : (
+                  <UserPage />
+                )
+              }
+            />
             <Route path="/:username/post/:pid" element={<PostPage />}></Route>
           </Routes>
-
-          {user && <CreatePost />}
         </BrowserRouter>
       </Container>
     </>
