@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import UserHeader from "../components/UserHeader";
-import UserPost from "../components/UserPost";
 import { useParams } from "react-router-dom";
 import useShowToast from "../hooks/useShowToast";
 import { Flex, Spinner } from "@chakra-ui/react";
@@ -46,24 +45,6 @@ const UserPage = () => {
   return (
     <>
       <UserHeader user={user} />
-      <UserPost
-        likes={1200}
-        replies={900}
-        postImg="/post1.png"
-        postTitle="lets talk about theread"
-      />
-      <UserPost
-        likes={1800}
-        replies={400}
-        postImg="/post2.png"
-        postTitle="lets talk about theread"
-      />
-      <UserPost
-        likes={600}
-        replies={666}
-        postImg="/post3.png"
-        postTitle="lets talk about theread"
-      />
     </>
   );
 };
