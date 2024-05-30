@@ -9,10 +9,13 @@ import { Link as RouterLink } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import useFollowUnfollow from "../hooks/useFollowUnfollow";
+import { useRecoilState } from "recoil";
+import postsAtom from "../atoms/postsAtom";
 
 const UserHeader = ({ user }) => {
   const toast = useToast();
   const currentUser = useRecoilValue(userAtom);
+  const [posts, setPosts] = useRecoilState(postsAtom);
   const { handleFollowUnfollow, following, updating } = useFollowUnfollow(user);
   const copyURL = () => {
     const currentURL = window.location.href;
@@ -89,12 +92,12 @@ const UserHeader = ({ user }) => {
             {following ? "Unfollow" : "Follow"}
           </Button>
         )}
-
         <Flex w={"full"} justifyContent={"space-between"}>
           <Flex gap={2} alignItems={"center"}>
+            <Text color={"gray.light"}>{posts.length} Posts</Text>
+
             <Text color={"gray.light"}>{user.followers.length} followers</Text>
-            <Box w="1" h="1" bg={"gray.light"} borderRadius={"full"}></Box>
-            <Link color={"gray.light"}>instagram.com</Link>
+            <Text color={"gray.light"}>{user.following.length} following</Text>
           </Flex>
           <Flex>
             <Box className="icon-container">

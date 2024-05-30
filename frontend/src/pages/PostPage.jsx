@@ -117,13 +117,14 @@ const PostPage = () => {
           overflow={"hidden"}
           border={"1px solid"}
           borderColor={"gray.light"}
+          className="post-image-container"
         >
           <Image src={currentPost.img} w={"full"} />
         </Box>
       )}
 
       <Flex gap={3} my={3}>
-        <Actions post={currentPost} />
+        <Actions post={currentPost} className="post-image" />
       </Flex>
 
       <Divider my={4} />

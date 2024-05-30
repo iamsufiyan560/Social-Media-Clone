@@ -149,8 +149,9 @@ const Post = ({ post, postedBy }) => {
               overflow={"hidden"}
               border={"1px solid"}
               borderColor={"gray.light"}
+              className="post-image-container"
             >
-              <Image src={post.img} w={"full"} />
+              <Image className="post-image" src={post.img} w={"full"} />
             </Box>
           )}
 
