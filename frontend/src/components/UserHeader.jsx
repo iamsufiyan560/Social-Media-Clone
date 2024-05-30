@@ -4,19 +4,57 @@ import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
 import { Portal } from "@chakra-ui/portal";
 import { BsInstagram } from "react-icons/bs";
 import { CgMoreO } from "react-icons/cg";
-import { Button, useToast } from "@chakra-ui/react";
-import { Link as RouterLink } from "react-router-dom";
+import { Button, Spinner, useToast } from "@chakra-ui/react";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import useFollowUnfollow from "../hooks/useFollowUnfollow";
 import { useRecoilState } from "recoil";
 import postsAtom from "../atoms/postsAtom";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Divider,
+} from "@chakra-ui/react";
+import useGetFollowerList from "../hooks/useGetFollowerList";
+import useGetFollowingList from "../hooks/useGetFollowingList";
+import { useState } from "react";
 
 const UserHeader = ({ user }) => {
   const toast = useToast();
   const currentUser = useRecoilValue(userAtom);
   const [posts, setPosts] = useRecoilState(postsAtom);
   const { handleFollowUnfollow, following, updating } = useFollowUnfollow(user);
+  const {
+    loading: followerLoading,
+    followers,
+    getFollowerList,
+  } = useGetFollowerList(user);
+  const {
+    loading: followingLoading,
+    followings,
+    getFollowingList,
+  } = useGetFollowingList(user);
+
+  const [modalType, setModalType] = useState("");
+
+  const handleOpenModal = async (type) => {
+    setModalType(type); // Set the modalType
+    if (type === "followers") {
+      await getFollowerList();
+    } else if (type === "following") {
+      await getFollowingList();
+    }
+    onOpen();
+  };
+
+  const navigate = useNavigate();
+
   const copyURL = () => {
     const currentURL = window.location.href;
     navigator.clipboard.writeText(currentURL).then(() => {
@@ -29,6 +67,8 @@ const UserHeader = ({ user }) => {
       });
     });
   };
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
@@ -77,12 +117,6 @@ const UserHeader = ({ user }) => {
 
         <Text>{user.bio}</Text>
 
-        {currentUser?._id === user._id && (
-          <Link as={RouterLink} to="/update">
-            <Button size={"sm"}>Update Profile</Button>
-          </Link>
-        )}
-
         {currentUser?._id !== user._id && (
           <Button
             size={"sm"}
@@ -92,12 +126,131 @@ const UserHeader = ({ user }) => {
             {following ? "Unfollow" : "Follow"}
           </Button>
         )}
+
+        {currentUser?._id === user._id && (
+          <Link as={RouterLink} to="/update">
+            <Button size={"sm"}>Update Profile</Button>
+          </Link>
+        )}
+
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent borderRadius="12">
+            <ModalHeader>
+              {modalType === "followers" ? "Followers" : "Following"}
+            </ModalHeader>
+            <ModalCloseButton />
+
+            <ModalBody>
+              {followerLoading || followingLoading ? (
+                <Flex
+                  justifyContent="center"
+                  alignItems="center"
+                  height="100px"
+                >
+                  <Spinner size="lg" />
+                </Flex>
+              ) : (
+                <>
+                  {modalType === "followers" &&
+                  Array.isArray(followers) &&
+                  followers.length > 0
+                    ? followers.map((follower, index) => (
+                        <Box
+                          onClick={(e) => {
+                            onClose();
+                            e.preventDefault();
+                            navigate(`/${follower.username}`);
+                          }}
+                          mb={6}
+                          key={follower._id}
+                          cursor="pointer"
+                        >
+                          <Flex gap={2} alignItems="center">
+                            <Avatar
+                              src={follower.profilePic}
+                              alt={follower.name}
+                            />
+                            <Box>
+                              <Text fontSize="sm">{follower.name}</Text>
+                            </Box>
+                          </Flex>
+                          {index < followers.length - 1 && <Divider my={4} />}
+                        </Box>
+                      ))
+                    : modalType === "followers" && (
+                        <Flex
+                          justifyContent="center"
+                          alignItems="center"
+                          height="100px"
+                        >
+                          <Text mb={6} color="gray.light" fontSize="sm">
+                            No followers found.
+                          </Text>
+                        </Flex>
+                      )}
+
+                  {modalType === "following" &&
+                  Array.isArray(followings) &&
+                  followings.length > 0
+                    ? followings.map((followingss, index) => (
+                        <Box
+                          onClick={(e) => {
+                            onClose();
+                            e.preventDefault();
+                            navigate(`/${followingss.username}`);
+                          }}
+                          mb={6}
+                          key={followingss._id}
+                          cursor="pointer"
+                        >
+                          <Flex gap={2} alignItems="center">
+                            <Avatar
+                              src={followingss.profilePic}
+                              alt={followingss.name}
+                            />
+                            <Box>
+                              <Text fontSize="sm">{followingss.name}</Text>
+                            </Box>
+                          </Flex>
+                          {index < followingss.length - 1 && <Divider my={4} />}
+                        </Box>
+                      ))
+                    : modalType === "following" && (
+                        <Flex
+                          justifyContent="center"
+                          alignItems="center"
+                          height="100px"
+                        >
+                          <Text mb={6} color="gray.light" fontSize="sm">
+                            No following found.
+                          </Text>
+                        </Flex>
+                      )}
+                </>
+              )}
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+
         <Flex w={"full"} justifyContent={"space-between"}>
           <Flex gap={2} alignItems={"center"}>
             <Text color={"gray.light"}>{posts.length} Posts</Text>
 
-            <Text color={"gray.light"}>{user.followers.length} followers</Text>
-            <Text color={"gray.light"}>{user.following.length} following</Text>
+            <Text
+              cursor="pointer"
+              onClick={() => handleOpenModal("followers")}
+              color={"gray.light"}
+            >
+              {user.followers.length} followers
+            </Text>
+            <Text
+              cursor="pointer"
+              onClick={() => handleOpenModal("following")}
+              color={"gray.light"}
+            >
+              {user.following.length} following
+            </Text>
           </Flex>
           <Flex>
             <Box className="icon-container">
