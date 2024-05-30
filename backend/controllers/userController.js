@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import generateTokenAndSetCookie from "../utils/helpers/generateTokenAndSetCookie.js";
 import mongoose from "mongoose";
 import { v2 as cloudinary } from "cloudinary";
+import * as userService from "../services/userService.js";
 
 const getUserProfile = async (req, res) => {
   // We will fetch user profile either with username or userId
@@ -217,6 +218,26 @@ const updateUser = async (req, res) => {
   }
 };
 
+async function getFollowers(req, res) {
+  const { userId } = req.params;
+  try {
+    const followersDetails = await userService.getFollowersDetails(userId);
+    res.status(200).json(followersDetails);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+async function getFollowing(req, res) {
+  const { userId } = req.params;
+  try {
+    const followingDetails = await userService.getFollowingDetails(userId);
+    res.status(200).json(followingDetails);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 export {
   signupUser,
   loginUser,
@@ -224,4 +245,6 @@ export {
   followUnFollowUser,
   updateUser,
   getUserProfile,
+  getFollowers,
+  getFollowing,
 };
