@@ -20,3 +20,29 @@
   height: 100%;
   object-fit: cover; /* Ensures the image covers the entire container */
 }
+/* ::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #1e1e1e;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #555;
+} */
+
+.hide-scrollbar {
+  overflow: hidden; /* Prevent scrollbars from being displayed */
+  overflow-y: scroll; /* Enable vertical scrolling */
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar for Internet Explorer and Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  width: 0px; /* Remove scrollbar space for Chrome, Safari, and Opera */
+  background: transparent; /* Optional: just to avoid a white stripe */
+}

@@ -1,7 +1,14 @@
-import { Container } from "@chakra-ui/react";
-import { Navigate, Route, Routes, BrowserRouter } from "react-router-dom";
+import { Box, Container } from "@chakra-ui/react";
+import {
+  Navigate,
+  Route,
+  Routes,
+  BrowserRouter,
+  useLocation,
+} from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { useRecoilValue } from "recoil";
+import ChatPage from "./pages/ChatPage";
 const UserPage = lazy(() => import("./pages/UserPage"));
 const PostPage = lazy(() => import("./pages/PostPage"));
 const Header = lazy(() => import("./components/Header"));
@@ -13,11 +20,14 @@ const CreatePost = lazy(() => import("./components/CreatePost"));
 
 function App() {
   const user = useRecoilValue(userAtom);
+  const { pathname } = useLocation();
 
   return (
     <>
-      <Container maxW="620px">
-        <BrowserRouter>
+      <Box position={"relative"} w="full">
+        <Container
+          maxW={pathname === "/" ? { base: "620px", md: "900px" } : "620px"}
+        >
           <Suspense>
             <Header />
             <Routes>
@@ -48,10 +58,14 @@ function App() {
                 }
               />
               <Route path="/:username/post/:pid" element={<PostPage />}></Route>
+              <Route
+                path="/chat"
+                element={user ? <ChatPage /> : <Navigate to={"/auth"} />}
+              />
             </Routes>
           </Suspense>
-        </BrowserRouter>
-      </Container>
+        </Container>
+      </Box>
     </>
   );
 }

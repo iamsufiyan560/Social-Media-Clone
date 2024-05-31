@@ -4,7 +4,7 @@ import userAtom from "../atoms/userAtom";
 import { AiFillHome } from "react-icons/ai";
 import { RxAvatar } from "react-icons/rx";
 import { Link as RouterLink } from "react-router-dom";
-
+import { BsFillChatQuoteFill } from "react-icons/bs";
 import authScreenAtom from "../atoms/authAtom";
 import LogoutButton from "./LogoutButton";
 
@@ -43,6 +43,9 @@ const Header = () => {
         <Flex alignItems={"center"} gap={4}>
           <Link as={RouterLink} to={`/${user.username}`}>
             <RxAvatar size={24} />
+          </Link>
+          <Link as={RouterLink} to={`/chat`}>
+            <BsFillChatQuoteFill size={20} />
           </Link>
 
           <Link as={RouterLink} to={`/auth`}>
