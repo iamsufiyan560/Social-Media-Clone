@@ -21,7 +21,7 @@ const useGetFollowingList = (user) => {
         showToast("Error", data.error, "error");
         return;
       }
-      console.log("following", data);
+
       setFollowing(data);
       setLoading(false);
     } catch (error) {

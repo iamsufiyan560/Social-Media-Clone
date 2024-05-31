@@ -24,12 +24,14 @@ import {
 import useGetFollowerList from "../hooks/useGetFollowerList";
 import useGetFollowingList from "../hooks/useGetFollowingList";
 import { useState } from "react";
+import followingAtom from "../atoms/followingAtom";
 
 const UserHeader = ({ user }) => {
+  const following = useRecoilValue(followingAtom);
   const toast = useToast();
   const currentUser = useRecoilValue(userAtom);
   const [posts, setPosts] = useRecoilState(postsAtom);
-  const { handleFollowUnfollow, following, updating } = useFollowUnfollow(user);
+  const { handleFollowUnfollow, updating } = useFollowUnfollow(user);
   const {
     loading: followerLoading,
     followers,

@@ -21,7 +21,6 @@ const useGetFollowerList = (user) => {
         showToast("Error", data.error, "error");
         return;
       }
-      console.log(data);
 
       setFollowers(data);
       setLoading(false);
