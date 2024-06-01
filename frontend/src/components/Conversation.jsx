@@ -8,13 +8,22 @@ import {
   Text,
   WrapItem,
   useColorModeValue,
+  useColorMode,
 } from "@chakra-ui/react";
 import React from "react";
 import { BsCheck2All, BsFillImageFill } from "react-icons/bs";
+import { useRecoilState, useRecoilValue } from "recoil";
+import userAtom from "../atoms/userAtom";
+import { selectedConversationAtom } from "../atoms/messagesAtom";
 
-const Conversation = () => {
-  const lastMessage =
-    " Hii Kaise ho bhailog aaj milte kya Hii Kaise ho bhailog aaj milteHii Kaise ho bhailog aaj milte kya Hii Kaise ho bhailog aaj milte kya Hii Kaise hobhailog aaj milte kya kya";
+const Conversation = ({ conversation }) => {
+  const user = conversation.participants[0];
+  const lastMessage = conversation.lastMessage;
+  const currentUser = useRecoilValue(userAtom);
+  const [selectedConversation, setSelectedConversation] = useRecoilState(
+    selectedConversationAtom
+  );
+  const colorMode = useColorMode();
 
   return (
     <>
@@ -29,7 +38,23 @@ const Conversation = () => {
           color: "white",
         }}
         borderRadius={"md"}
-        border="1px solid red"
+        // border="1px solid red"
+        onClick={() =>
+          setSelectedConversation({
+            _id: conversation._id,
+            userId: user._id,
+            userProfilePic: user.profilePic,
+            username: user.username,
+            mock: conversation.mock,
+          })
+        }
+        bg={
+          selectedConversation?._id === conversation._id
+            ? colorMode === "light"
+              ? "gray.400"
+              : "gray"
+            : ""
+        }
       >
         <WrapItem>
           <Avatar
@@ -38,7 +63,7 @@ const Conversation = () => {
               sm: "sm",
               md: "md",
             }}
-            src="/zuck-avatar.png"
+            src={user.profilePic}
           >
             <AvatarBadge boxSize="1em" bg="green.500" />
           </Avatar>
@@ -46,12 +71,20 @@ const Conversation = () => {
 
         <Stack direction={"column"} fontSize={"sm"}>
           <Text fontWeight="700" display={"flex"} alignItems={"center"}>
-            sufiyan <Image src="/verified.png" w={4} h={4} ml={1} />
+            {user.username} <Image src="/verified.png" w={4} h={4} ml={1} />
           </Text>
           <Text fontSize={"xs"} display={"flex"} alignItems={"center"} gap={1}>
-            {lastMessage.length > 18
-              ? lastMessage.substring(0, 18) + "..."
-              : lastMessage}
+            {currentUser._id === lastMessage.sender ? (
+              <Box color={lastMessage.seen ? "blue.400" : ""}>
+                <BsCheck2All size={16} />
+              </Box>
+            ) : (
+              ""
+            )}
+
+            {lastMessage.text.length > 18
+              ? lastMessage.text.substring(0, 18) + "..."
+              : lastMessage.text}
             {/* <Box color="blue.400">
               <BsCheck2All size={16} />
             </Box>

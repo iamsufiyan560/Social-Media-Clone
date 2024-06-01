@@ -9,20 +9,135 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GiConversation } from "react-icons/gi";
 import Conversation from "../components/Conversation";
 import MessageContainer from "../components/MessageContainer";
+import useShowToast from "../hooks/useShowToast";
+import {
+  conversationsAtom,
+  selectedConversationAtom,
+} from "../atoms/messagesAtom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import userAtom from "../atoms/userAtom";
+
 const ChatPage = () => {
+  const showToast = useShowToast();
+  const [loadingConversations, setLoadingConversations] = useState(true);
+  const [conversations, setConversations] = useRecoilState(conversationsAtom);
+  const [selectedConversation, setSelectedConversation] = useRecoilState(
+    selectedConversationAtom
+  );
+
+  const [searchText, setSearchText] = useState("");
+  const [searchingUser, setSearchingUser] = useState(false);
+  const currentUser = useRecoilValue(userAtom);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setSearchText(value);
+
+    // Clear error message when the user starts typing
+    if (value.trim()) {
+      setErrorMessage("");
+    }
+  };
+
+  useEffect(() => {
+    const getConversations = async () => {
+      try {
+        const res = await fetch("/api/messages/conversations");
+        const data = await res.json();
+        if (data.error) {
+          showToast("Error", data.error, "error");
+          return;
+        }
+
+        setConversations(data);
+      } catch (error) {
+        showToast("Error", error.message, "error");
+      } finally {
+        setLoadingConversations(false);
+      }
+    };
+
+    getConversations();
+  }, [showToast, setConversations]);
+
+  const handleConversationSearch = async (e) => {
+    e.preventDefault();
+    if (!searchText.trim()) {
+      // If the input is empty or only contains whitespace
+      setErrorMessage("Please enter a User Name.");
+      return;
+    }
+
+    setErrorMessage("");
+    setSearchingUser(true);
+    try {
+      const res = await fetch(`/api/users/profile/${searchText}`);
+
+      const searchedUser = await res.json();
+      if (searchedUser.error) {
+        showToast("", searchedUser.error, "error");
+        return;
+      }
+
+      const messagingYourself = searchedUser._id === currentUser._id;
+      if (messagingYourself) {
+        showToast("Error", "You cannot message yourself", "error");
+        return;
+      }
+
+      const conversationAlreadyExists = conversations.find(
+        (conversation) => conversation.participants[0]._id === searchedUser._id
+      );
+
+      if (conversationAlreadyExists) {
+        setSelectedConversation({
+          _id: conversationAlreadyExists._id,
+          userId: searchedUser._id,
+          username: searchedUser.username,
+          userProfilePic: searchedUser.profilePic,
+        });
+        return;
+      }
+
+      const mockConversation = {
+        mock: true,
+        lastMessage: {
+          text: "",
+          sender: "",
+        },
+        _id: Date.now(),
+        participants: [
+          {
+            _id: searchedUser._id,
+            username: searchedUser.username,
+            profilePic: searchedUser.profilePic,
+          },
+        ],
+      };
+      setConversations((prevConvs) => [...prevConvs, mockConversation]);
+    } catch (error) {
+      showToast("Error", "Network error. Please try again.", "error");
+    } finally {
+      setSearchingUser(false);
+    }
+  };
+
   return (
     <>
       <Box
+        bg={useColorModeValue("gray.400", "gray.dark")}
         position={"absolute"}
         left={"50%"}
         w={{ base: "100%", md: "80%", lg: "750px" }}
         p={4}
         transform={"translateX(-50%)"}
-        border="1px solid red"
+        border="3px solid #4F9D69"
+        borderRadius={10}
       >
         <Flex
           gap={4}
@@ -46,17 +161,29 @@ const ChatPage = () => {
             >
               Your Conversations
             </Text>
-            <form>
-              <Flex alignItems={"center"} gap={2}>
-                <Input placeholder="Search for a user" />
+            <form onSubmit={handleConversationSearch}>
+              <Flex flexDirection="column" gap={2}>
+                <Flex alignItems={"center"} gap={2}>
+                  <Input
+                    border="2px solid #4F9D69"
+                    placeholder="Search for a user"
+                    onChange={handleInputChange}
+                    value={searchText}
+                  />
 
-                <Button size={"sm"}>
-                  <SearchIcon />
-                </Button>
+                  <Button size={"sm"} type="submit" isLoading={searchingUser}>
+                    <SearchIcon />
+                  </Button>
+                </Flex>
+                {errorMessage && (
+                  <Text color="red.500" fontSize="sm">
+                    {errorMessage}
+                  </Text>
+                )}
               </Flex>
             </form>
 
-            {false &&
+            {loadingConversations &&
               [0, 1, 2, 3, 4].map((_, i) => (
                 <Flex
                   key={i}
@@ -75,24 +202,33 @@ const ChatPage = () => {
                 </Flex>
               ))}
 
-            <Conversation />
-            <Conversation />
-            <Conversation />
+            {!loadingConversations &&
+              conversations.map((conversation) => (
+                <Conversation
+                  key={conversation._id}
+                  conversation={conversation}
+                />
+              ))}
           </Flex>
-
-          {/* <Flex
-            flex={70}
-            borderRadius={"md"}
-            p={2}
-            flexDir={"column"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            height={"400px"}
-          >
-            <GiConversation size={100} />
-            <Text fontSize={20}>Select a conversation to start messaging</Text>
-          </Flex> */}
-          <MessageContainer />
+          {!selectedConversation._id && (
+            <Flex
+              flex={70}
+              borderRadius={"md"}
+              p={2}
+              flexDir={"column"}
+              alignItems={"center"}
+              justifyContent={"center"}
+              height={"400px"}
+              display={{ base: "none", md: "flex" }}
+              m="auto"
+            >
+              <GiConversation size={100} />
+              <Text fontSize={20}>
+                Select a conversation to start messaging
+              </Text>
+            </Flex>
+          )}
+          {selectedConversation._id && <MessageContainer />}
         </Flex>
       </Box>
     </>
