@@ -39,8 +39,6 @@ const Conversation = ({ conversation, isOnline }) => {
     setIsMobile(false);
   };
 
-  console.log(isMobile);
-
   return (
     <>
       <Flex

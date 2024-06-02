@@ -12,7 +12,7 @@ import {
 import Message from "./Message";
 import MessageInput from "./MessageInput";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useShowToast from "../hooks/useShowToast";
 import {
   conversationsAtom,
@@ -22,17 +22,47 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import userAtom from "../atoms/userAtom";
 import { IoMdArrowBack } from "react-icons/io";
 import responsiveAtom from "../atoms/responsiveAtom";
+import { useSocket } from "../context/SocketContext";
 
 const MessageContainer = () => {
   const [isMobile, setIsMobile] = useRecoilState(responsiveAtom);
-
   const showToast = useShowToast();
   const [selectedConversation, setSelectedConversation] = useRecoilState(
     selectedConversationAtom
   );
+  const setConversations = useSetRecoilState(conversationsAtom);
   const [loadingMessages, setLoadingMessages] = useState(true);
   const [messages, setMessages] = useState([]);
   const currentUser = useRecoilValue(userAtom);
+  const { socket } = useSocket();
+  const messageEndRef = useRef(null);
+
+  useEffect(() => {
+    socket.on("newMessage", (message) => {
+      if (selectedConversation._id === message.conversationId) {
+        setMessages((prev) => [...prev, message]);
+      }
+
+      setConversations((prev) => {
+        const updatedConversations = prev.map((conversation) => {
+          if (conversation._id === message.conversationId) {
+            return {
+              ...conversation,
+              lastMessage: {
+                text: message.text,
+                sender: message.sender,
+              },
+            };
+          }
+          return conversation;
+        });
+        return updatedConversations;
+      });
+    });
+
+    return () => socket.off("newMessage");
+  }, [socket, selectedConversation]);
+
   const handleBackButtonClick = () => {
     setSelectedConversation({ _id: "" });
     setIsMobile(true);
@@ -61,6 +91,10 @@ const MessageContainer = () => {
 
     getMessages();
   }, [showToast, selectedConversation.userId]);
+
+  useEffect(() => {
+    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   return (
     <>
@@ -118,7 +152,11 @@ const MessageContainer = () => {
               <Flex
                 key={message._id}
                 direction={"column"}
-                // ref={messages.length - 1 === messages.indexOf(message) ? messageEndRef : null}
+                ref={
+                  messages.length - 1 === messages.indexOf(message)
+                    ? messageEndRef
+                    : null
+                }
               >
                 <Message
                   message={message}
