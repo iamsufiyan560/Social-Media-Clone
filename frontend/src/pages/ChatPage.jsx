@@ -20,6 +20,7 @@ import {
 } from "../atoms/messagesAtom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
+import { useSocket } from "../context/SocketContext";
 
 const ChatPage = () => {
   const showToast = useShowToast();
@@ -33,6 +34,7 @@ const ChatPage = () => {
   const [searchingUser, setSearchingUser] = useState(false);
   const currentUser = useRecoilValue(userAtom);
   const [errorMessage, setErrorMessage] = useState("");
+  const { socket, onlineUsers } = useSocket();
 
   const handleInputChange = (e) => {
     const value = e.target.value;
@@ -130,14 +132,14 @@ const ChatPage = () => {
   return (
     <>
       <Box
-        bg={useColorModeValue("gray.400", "gray.dark")}
+        // h={"85vh"}
         position={"absolute"}
         left={"50%"}
         w={{ base: "100%", md: "80%", lg: "750px" }}
         p={4}
         transform={"translateX(-50%)"}
-        border="3px solid #4F9D69"
-        borderRadius={10}
+        // border="3px solid #4F9D69"
+        // borderRadius={10}
       >
         <Flex
           gap={4}
@@ -206,10 +208,14 @@ const ChatPage = () => {
               conversations.map((conversation) => (
                 <Conversation
                   key={conversation._id}
+                  isOnline={onlineUsers.includes(
+                    conversation.participants[0]._id
+                  )}
                   conversation={conversation}
                 />
               ))}
           </Flex>
+
           {!selectedConversation._id && (
             <Flex
               flex={70}
