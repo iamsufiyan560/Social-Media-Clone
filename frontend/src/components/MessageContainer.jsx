@@ -9,7 +9,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 // import React, { useRef } from "react";
-import Message from "./Message";
+import Message, { MessageList } from "./Message";
 import MessageInput from "./MessageInput";
 
 import { useEffect, useRef, useState } from "react";
@@ -61,7 +61,36 @@ const MessageContainer = () => {
     });
 
     return () => socket.off("newMessage");
-  }, [socket, selectedConversation]);
+  }, [socket, selectedConversation, setConversations]);
+
+  useEffect(() => {
+    const lastMessageIsFromOtherUser =
+      messages.length &&
+      messages[messages.length - 1].sender !== currentUser._id;
+    if (lastMessageIsFromOtherUser) {
+      socket.emit("markMessagesAsSeen", {
+        conversationId: selectedConversation._id,
+        userId: selectedConversation.userId,
+      });
+    }
+
+    socket.on("messagesSeen", ({ conversationId }) => {
+      if (selectedConversation._id === conversationId) {
+        setMessages((prev) => {
+          const updatedMessages = prev.map((message) => {
+            if (!message.seen) {
+              return {
+                ...message,
+                seen: true,
+              };
+            }
+            return message;
+          });
+          return updatedMessages;
+        });
+      }
+    });
+  }, [socket, currentUser._id, messages, selectedConversation]);
 
   const handleBackButtonClick = () => {
     setSelectedConversation({ _id: "" });
