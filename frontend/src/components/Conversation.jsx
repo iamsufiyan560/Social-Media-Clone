@@ -15,6 +15,7 @@ import { BsCheck2All, BsFillImageFill } from "react-icons/bs";
 import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import { selectedConversationAtom } from "../atoms/messagesAtom";
+import responsiveAtom from "../atoms/responsiveAtom";
 
 const Conversation = ({ conversation, isOnline }) => {
   const user = conversation.participants[0];
@@ -24,6 +25,21 @@ const Conversation = ({ conversation, isOnline }) => {
     selectedConversationAtom
   );
   const colorMode = useColorMode();
+  const [isMobile, setIsMobile] = useRecoilState(responsiveAtom);
+
+  const handleClickUser = () => {
+    setSelectedConversation({
+      _id: conversation._id,
+      userId: user._id,
+      userProfilePic: user.profilePic,
+      username: user.username,
+      mock: conversation.mock,
+    });
+
+    setIsMobile(false);
+  };
+
+  console.log(isMobile);
 
   return (
     <>
@@ -38,15 +54,16 @@ const Conversation = ({ conversation, isOnline }) => {
           color: "white",
         }}
         borderRadius={"md"}
-        onClick={() =>
-          setSelectedConversation({
-            _id: conversation._id,
-            userId: user._id,
-            userProfilePic: user.profilePic,
-            username: user.username,
-            mock: conversation.mock,
-          })
-        }
+        onClick={handleClickUser}
+        // onClick={() =>
+        //   setSelectedConversation({
+        //     _id: conversation._id,
+        //     userId: user._id,
+        //     userProfilePic: user.profilePic,
+        //     username: user.username,
+        //     mock: conversation.mock,
+        //   })
+        // }
         bg={
           selectedConversation?._id === conversation._id
             ? colorMode === "light"

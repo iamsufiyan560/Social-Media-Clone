@@ -21,8 +21,11 @@ import {
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import userAtom from "../atoms/userAtom";
 import { IoMdArrowBack } from "react-icons/io";
+import responsiveAtom from "../atoms/responsiveAtom";
 
-const MessageContainer = ({ onBackButtonClick }) => {
+const MessageContainer = () => {
+  const [isMobile, setIsMobile] = useRecoilState(responsiveAtom);
+
   const showToast = useShowToast();
   const [selectedConversation, setSelectedConversation] = useRecoilState(
     selectedConversationAtom
@@ -32,6 +35,7 @@ const MessageContainer = ({ onBackButtonClick }) => {
   const currentUser = useRecoilValue(userAtom);
   const handleBackButtonClick = () => {
     setSelectedConversation({ _id: "" });
+    setIsMobile(true);
   };
 
   useEffect(() => {
@@ -61,6 +65,7 @@ const MessageContainer = ({ onBackButtonClick }) => {
   return (
     <>
       <Flex
+        display={isMobile ? { base: "none", md: "flex" } : "flex"}
         flex="70"
         bg={useColorModeValue("#CBF6F6", "#0E5050")}
         borderRadius={"15"}

@@ -21,8 +21,10 @@ import {
 import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import { useSocket } from "../context/SocketContext";
+import responsiveAtom from "../atoms/responsiveAtom";
 
 const ChatPage = () => {
+  const [isMobile, setIsMobile] = useRecoilState(responsiveAtom);
   const showToast = useShowToast();
   const [loadingConversations, setLoadingConversations] = useState(true);
   const [conversations, setConversations] = useRecoilState(conversationsAtom);
@@ -151,6 +153,7 @@ const ChatPage = () => {
           mx={"auto"}
         >
           <Flex
+            display={!isMobile ? { base: "none", md: "flex" } : "flex"}
             flex={30}
             gap={2}
             flexDirection={"column"}
