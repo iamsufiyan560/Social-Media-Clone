@@ -83,15 +83,6 @@ const UserHeader = ({ user }) => {
             </Text>
             <Flex gap={2} alignItems={"center"}>
               <Text fontSize={"sm"}>{user.username}</Text>
-              <Text
-                fontSize={"xs"}
-                bg={"white.light"}
-                color={"gray"}
-                p={1}
-                borderRadius={"full"}
-              >
-                threads.net
-              </Text>
             </Flex>
           </Box>
           <Box>

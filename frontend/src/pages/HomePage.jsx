@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Spinner } from "@chakra-ui/react";
+import { Box, Flex, Heading, Spinner, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import useShowToast from "../hooks/useShowToast";
 import Post from "../components/Post";
@@ -36,7 +36,16 @@ const HomePage = () => {
     <Flex gap="10" alignItems={"flex-start"}>
       <Box flex={70}>
         {!loading && posts.length === 0 && (
-          <h1>Follow some users to see the feed</h1>
+          <Heading
+            fontWeight={600}
+            fontSize={{ base: "2xl", sm: "5xl", md: "5xl" }}
+            lineHeight={"110%"}
+          >
+            Follow some users
+            <Text as={"span"} color={"orange.400"} display="block">
+              to see the feed
+            </Text>
+          </Heading>
         )}
 
         {loading && (

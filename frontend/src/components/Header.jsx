@@ -30,7 +30,7 @@ const Header = () => {
         mt={"6"}
         ml={"20%"}
         src={colorMode === "dark" ? "/light-logo.svg" : "/dark-logo.svg"}
-        onClick={toggleColorMode}
+        // onClick={toggleColorMode}
       />
 
       {user && (

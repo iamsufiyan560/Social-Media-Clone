@@ -191,6 +191,7 @@ const ChatPage = () => {
               <Flex flexDirection="column" gap={2}>
                 <Flex alignItems={"center"} gap={2}>
                   <Input
+                    bg={"#808080"}
                     fontWeight={500}
                     border="2px solid #4F9D69"
                     placeholder="Search for a user"
@@ -199,6 +200,7 @@ const ChatPage = () => {
                     }}
                     onChange={handleInputChange}
                     value={searchText}
+                    color={"white"}
                   />
 
                   <Button
@@ -211,7 +213,7 @@ const ChatPage = () => {
                   </Button>
                 </Flex>
                 {errorMessage && (
-                  <Text color="red.500" fontSize="sm">
+                  <Text color="red" fontWeight={"600"} fontSize="xm">
                     {errorMessage}
                   </Text>
                 )}

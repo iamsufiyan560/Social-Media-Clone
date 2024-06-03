@@ -8,15 +8,16 @@ import {
 } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { useRecoilValue } from "recoil";
-import ChatPage from "./pages/ChatPage";
+const ChatPage = lazy(() => import("./pages/ChatPage"));
 const UserPage = lazy(() => import("./pages/UserPage"));
 const PostPage = lazy(() => import("./pages/PostPage"));
 const Header = lazy(() => import("./components/Header"));
 const HomePage = lazy(() => import("./pages/HomePage"));
 const AuthPage = lazy(() => import("./pages/AuthPage"));
-import userAtom from "./atoms/userAtom";
+const SettingsPage = lazy(() => import("./pages/SettingsPage"));
 const UpdateProfilePage = lazy(() => import("./pages/UpdateProfilePage"));
-const CreatePost = lazy(() => import("./components/CreatePost"));
+
+import userAtom from "./atoms/userAtom";
 
 function App() {
   const user = useRecoilValue(userAtom);
@@ -68,7 +69,6 @@ function App() {
                     user ? (
                       <>
                         <UserPage />
-                        {/* <CreatePost /> */}
                       </>
                     ) : (
                       <UserPage />
@@ -82,6 +82,10 @@ function App() {
                 <Route
                   path="/chat"
                   element={user ? <ChatPage /> : <Navigate to={"/auth"} />}
+                />
+                <Route
+                  path="/settings"
+                  element={user ? <SettingsPage /> : <Navigate to={"/auth"} />}
                 />
               </Routes>
             </Suspense>
