@@ -8,7 +8,10 @@ export default defineConfig({
     port: 5173,
     proxy: {
       "/api": {
-        target: "http://localhost:3000",
+        target:
+          mode === "development"
+            ? "http://localhost:3000"
+            : "https://threads-clone-80w1.onrender.com",
         changeOrigin: true,
         secure: false,
       },
