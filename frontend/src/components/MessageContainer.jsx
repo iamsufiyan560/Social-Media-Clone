@@ -23,6 +23,7 @@ import userAtom from "../atoms/userAtom";
 import { IoMdArrowBack } from "react-icons/io";
 import responsiveAtom from "../atoms/responsiveAtom";
 import { useSocket } from "../context/SocketContext";
+import messageSound from "../assets/sounds/message.mp3";
 
 const MessageContainer = () => {
   const [isMobile, setIsMobile] = useRecoilState(responsiveAtom);
@@ -41,6 +42,10 @@ const MessageContainer = () => {
     socket.on("newMessage", (message) => {
       if (selectedConversation._id === message.conversationId) {
         setMessages((prev) => [...prev, message]);
+      }
+      if (!document.hasFocus()) {
+        const sound = new Audio(messageSound);
+        sound.play();
       }
 
       setConversations((prev) => {
