@@ -98,7 +98,7 @@ const Conversation = ({ conversation, isOnline }) => {
 
             {lastMessage.text.length > 18
               ? lastMessage.text.substring(0, 18) + "..."
-              : lastMessage.text}
+              : lastMessage.text || <BsFillImageFill size={16} />}
           </Text>
         </Stack>
       </Flex>

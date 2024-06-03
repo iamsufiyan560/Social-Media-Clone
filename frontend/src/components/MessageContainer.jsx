@@ -9,7 +9,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 // import React, { useRef } from "react";
-import Message, { MessageList } from "./Message";
+import Message from "./Message";
 import MessageInput from "./MessageInput";
 
 import { useEffect, useRef, useState } from "react";
