@@ -7,6 +7,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { BsFillChatQuoteFill } from "react-icons/bs";
 import authScreenAtom from "../atoms/authAtom";
 import LogoutButton from "./LogoutButton";
+import { MdOutlineSettings } from "react-icons/md";
 
 const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -15,19 +16,10 @@ const Header = () => {
   const setAuthScreen = useSetRecoilState(authScreenAtom);
 
   return (
-    <Flex justifyContent={"space-between"} mt={6} mb="12">
+    <Flex justifyContent={"space-between"} mb="12">
       {user && (
-        <Link as={RouterLink} to="/">
+        <Link mt={"6"} as={RouterLink} to="/">
           <AiFillHome size={24} />
-        </Link>
-      )}
-      {!user && (
-        <Link
-          as={RouterLink}
-          to={"/auth"}
-          onClick={() => setAuthScreen("login")}
-        >
-          Login
         </Link>
       )}
 
@@ -35,33 +27,28 @@ const Header = () => {
         cursor={"pointer"}
         alt="logo"
         w={6}
+        mt={"6"}
+        ml={"20%"}
         src={colorMode === "dark" ? "/light-logo.svg" : "/dark-logo.svg"}
         onClick={toggleColorMode}
       />
 
       {user && (
         <Flex alignItems={"center"} gap={4}>
-          <Link as={RouterLink} to={`/${user.username}`}>
+          <Link mt={"6"} as={RouterLink} to={`/${user.username}`}>
             <RxAvatar size={24} />
           </Link>
-          <Link as={RouterLink} to={`/chat`}>
+          <Link mt={"6"} as={RouterLink} to={`/chat`}>
             <BsFillChatQuoteFill size={20} />
           </Link>
+          <Link mt={"6"} as={RouterLink} to={`/settings`}>
+            <MdOutlineSettings size={20} />
+          </Link>
 
-          <Link as={RouterLink} to={`/auth`}>
+          <Link mt={"6"} as={RouterLink} to={`/auth`}>
             <LogoutButton />
           </Link>
         </Flex>
-      )}
-
-      {!user && (
-        <Link
-          as={RouterLink}
-          to={"/auth"}
-          onClick={() => setAuthScreen("signup")}
-        >
-          Sign up
-        </Link>
       )}
     </Flex>
   );

@@ -91,7 +91,7 @@ export default function LoginCard() {
         </Stack>
         <Box
           rounded={"lg"}
-          bg={useColorModeValue("white", "gray.dark")}
+          bg={useColorModeValue("white", "gray")}
           boxShadow={"lg"}
           p={7}
           w={{

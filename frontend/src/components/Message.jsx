@@ -11,7 +11,13 @@ import { selectedConversationAtom } from "../atoms/messagesAtom";
 import { useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import { BsCheck2All } from "react-icons/bs";
-import { format } from "date-fns";
+import {
+  differenceInDays,
+  format,
+  formatDistanceToNow,
+  isToday,
+  isYesterday,
+} from "date-fns";
 import { useState } from "react";
 import { FiDownload } from "react-icons/fi";
 import useShowToast from "../hooks/useShowToast";
@@ -19,9 +25,28 @@ import useShowToast from "../hooks/useShowToast";
 const Message = ({ ownMessage, message }) => {
   const selectedConversation = useRecoilValue(selectedConversationAtom);
   const user = useRecoilValue(userAtom);
-  const messageTime = format(new Date(message.createdAt), "HH:mm");
+  // const messageTime = format(new Date(message.createdAt), "HH:mm");
   const [imgLoaded, setImgLoaded] = useState(false);
   const showToast = useShowToast();
+
+  const getMessageTime = (messageDate) => {
+    const date = new Date(messageDate);
+
+    if (isToday(date)) {
+      return format(date, "hh:mm a");
+    } else if (isYesterday(date)) {
+      return `Yesterday at ${format(date, "hh:mm a")}`;
+    } else {
+      const daysDifference = differenceInDays(new Date(), date);
+      if (daysDifference < 7) {
+        return format(date, "MMMM d,  hh:mm a");
+      } else {
+        return format(date, "MMMM d, yyyy");
+      }
+    }
+  };
+
+  const messageTime = getMessageTime(message.createdAt);
 
   const downloadImage = async () => {
     try {
@@ -50,7 +75,7 @@ const Message = ({ ownMessage, message }) => {
               <Box
                 alignSelf={"flex-end"}
                 ml={1}
-                color={message.seen ? "blue.400" : ""}
+                color={message.seen ? "blue.400" : "white"}
                 fontWeight={"bold"}
               >
                 <BsCheck2All size={16} />
@@ -58,7 +83,7 @@ const Message = ({ ownMessage, message }) => {
               <Text
                 pl={1}
                 fontSize={"xs"}
-                color={"gray.500"}
+                color={"white"}
                 alignSelf={"flex-end"}
               >
                 {messageTime}
@@ -121,7 +146,7 @@ const Message = ({ ownMessage, message }) => {
               <Text
                 pl={1}
                 fontSize={"xs"}
-                color={"gray.500"}
+                color={"black"}
                 alignSelf={"flex-end"}
               >
                 {messageTime}

@@ -17,7 +17,9 @@ const Comment = ({ reply, lastReply }) => {
           <Text>{reply.text}</Text>
         </Flex>
       </Flex>
-      {!lastReply ? <Divider /> : null}
+      {!lastReply ? (
+        <Divider border={"1px "} borderColor="teal" my={4} />
+      ) : null}
     </>
   );
 };

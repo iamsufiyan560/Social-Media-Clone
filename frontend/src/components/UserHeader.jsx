@@ -4,7 +4,7 @@ import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
 import { Portal } from "@chakra-ui/portal";
 import { BsInstagram } from "react-icons/bs";
 import { CgMoreO } from "react-icons/cg";
-import { Button, Spinner, useToast } from "@chakra-ui/react";
+import { Button, Spinner, useColorModeValue, useToast } from "@chakra-ui/react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
@@ -25,6 +25,7 @@ import useGetFollowerList from "../hooks/useGetFollowerList";
 import useGetFollowingList from "../hooks/useGetFollowingList";
 import { useState } from "react";
 import followingAtom from "../atoms/followingAtom";
+import CreatePost from "./CreatePost";
 
 const UserHeader = ({ user }) => {
   const following = useRecoilValue(followingAtom);
@@ -130,12 +131,23 @@ const UserHeader = ({ user }) => {
         )}
 
         {currentUser?._id === user._id && (
-          <Link as={RouterLink} to="/update">
-            <Button size={"sm"}>Update Profile</Button>
-          </Link>
+          <Flex>
+            <Link as={RouterLink} to="/update">
+              <Button
+                bg={useColorModeValue("blue.300", "blue.400")}
+                _hover={{
+                  bg: "blue.200",
+                }}
+                size={"sm"}
+              >
+                Update Profile
+              </Button>
+            </Link>
+            <CreatePost />
+          </Flex>
         )}
 
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal bg={"grey"} isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent borderRadius="12">
             <ModalHeader>
@@ -174,10 +186,18 @@ const UserHeader = ({ user }) => {
                               alt={follower.name}
                             />
                             <Box>
-                              <Text fontSize="sm">{follower.name}</Text>
+                              <Text color={"grey.dark"} fontSize="sm">
+                                {follower.name}
+                              </Text>
                             </Box>
                           </Flex>
-                          {index < followers.length - 1 && <Divider my={4} />}
+                          {index < followers.length - 1 && (
+                            <Divider
+                              border={"1px "}
+                              borderColor="black"
+                              my={4}
+                            />
+                          )}
                         </Box>
                       ))
                     : modalType === "followers" && (
@@ -212,10 +232,18 @@ const UserHeader = ({ user }) => {
                               alt={followingss.name}
                             />
                             <Box>
-                              <Text fontSize="sm">{followingss.name}</Text>
+                              <Text color={"black"} fontSize="sm">
+                                {followingss.name}
+                              </Text>
                             </Box>
                           </Flex>
-                          {index < followingss.length - 1 && <Divider my={4} />}
+                          {index < followings.length - 1 && (
+                            <Divider
+                              border={"1px "}
+                              borderColor="black"
+                              my={4}
+                            />
+                          )}
                         </Box>
                       ))
                     : modalType === "following" && (
@@ -278,7 +306,7 @@ const UserHeader = ({ user }) => {
         <Flex w={"full"}>
           <Flex
             flex={1}
-            borderBottom={"1.5px solid white"}
+            borderBottom={"2.5px solid white"}
             justifyContent={"center"}
             pb="3"
             cursor={"pointer"}
@@ -287,7 +315,7 @@ const UserHeader = ({ user }) => {
           </Flex>
           <Flex
             flex={1}
-            borderBottom={"1px solid gray"}
+            borderBottom={"2.5px solid gray"}
             justifyContent={"center"}
             color={"gray.light"}
             pb="3"

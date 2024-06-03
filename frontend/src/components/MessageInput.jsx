@@ -99,13 +99,18 @@ const MessageInput = ({ setMessages }) => {
             onChange={(e) => setMessageText(e.target.value)}
             value={messageText}
           />
+          color={"white"}
           <InputRightElement onClick={handleSendMessage} cursor={"pointer"}>
-            <IoSendSharp />
+            <IoSendSharp color={"white"} />
           </InputRightElement>
         </InputGroup>
       </form>
       <Flex flex={5} cursor={"pointer"}>
-        <BsFillImageFill size={20} onClick={() => imageRef.current.click()} />
+        <BsFillImageFill
+          color={"white"}
+          size={20}
+          onClick={() => imageRef.current.click()}
+        />
         <Input
           type={"file"}
           hidden

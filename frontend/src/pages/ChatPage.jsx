@@ -154,14 +154,18 @@ const ChatPage = () => {
   return (
     <>
       <Box
-        // h={"85vh"}
+        mt={-5}
+        backgroundImage="url('/3.jpg')"
+        backgroundSize="cover"
+        backgroundPosition="center"
+        h={"84vh"}
         position={"absolute"}
         left={"50%"}
-        w={{ base: "100%", md: "80%", lg: "750px" }}
+        w={{ base: "90%", md: "80%", lg: "750px" }}
         p={4}
         transform={"translateX(-50%)"}
         // border="3px solid #4F9D69"
-        // borderRadius={10}
+        borderRadius={15}
       >
         <Flex
           gap={4}
@@ -180,24 +184,30 @@ const ChatPage = () => {
             maxW={{ sm: "250px", md: "full" }}
             mx={"auto"}
           >
-            <Text
-              fontWeight={700}
-              color={useColorModeValue("gray.600", "gray.400")}
-            >
+            <Text fontWeight={700} color={useColorModeValue("white", "white")}>
               Your Conversations
             </Text>
             <form onSubmit={handleConversationSearch}>
               <Flex flexDirection="column" gap={2}>
                 <Flex alignItems={"center"} gap={2}>
                   <Input
+                    fontWeight={500}
                     border="2px solid #4F9D69"
                     placeholder="Search for a user"
+                    _placeholder={{
+                      color: "white", // Change placeholder color here
+                    }}
                     onChange={handleInputChange}
                     value={searchText}
                   />
 
-                  <Button size={"sm"} type="submit" isLoading={searchingUser}>
-                    <SearchIcon />
+                  <Button
+                    bg={useColorModeValue("white", "white")}
+                    size={"sm"}
+                    type="submit"
+                    isLoading={searchingUser}
+                  >
+                    <SearchIcon color={"black"} />
                   </Button>
                 </Flex>
                 {errorMessage && (
@@ -221,8 +231,8 @@ const ChatPage = () => {
                     <SkeletonCircle size={"10"} />
                   </Box>
                   <Flex w={"full"} flexDirection={"column"} gap={3}>
-                    <Skeleton h={"10px"} w={"45%"} />
-                    <Skeleton h={"8px"} w={"90%"} />
+                    <Skeleton bg={"black"} h={"10px"} w={"45%"} />
+                    <Skeleton bg={"black"} h={"8px"} w={"90%"} />
                   </Flex>
                 </Flex>
               ))}
@@ -251,8 +261,8 @@ const ChatPage = () => {
               display={{ base: "none", md: "flex" }}
               m="auto"
             >
-              <GiConversation size={100} />
-              <Text fontSize={20}>
+              <GiConversation color="white" size={100} />
+              <Text color={"white"} fontSize={20}>
                 Select a conversation to start messaging
               </Text>
             </Flex>

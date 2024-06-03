@@ -71,7 +71,7 @@ const Post = ({ post, postedBy }) => {
               navigate(`/${user.username}`);
             }}
           />
-          <Box w="1px" h={"full"} bg="gray.light" my={2}></Box>
+          <Box w="1px" h={"full"} bg="Black" my={2}></Box>
           <Box position={"relative"} w={"full"}>
             {post.replies.length === 0 && <Text textAlign={"center"}>🥱</Text>}
             {post.replies[0] && (
@@ -131,7 +131,8 @@ const Post = ({ post, postedBy }) => {
                 fontSize={"xs"}
                 width={36}
                 textAlign={"right"}
-                color={"gray.light"}
+                color={"black"}
+                fontWeight={"bold"}
               >
                 {formatDistanceToNow(new Date(post.createdAt))} ago
               </Text>
@@ -142,7 +143,9 @@ const Post = ({ post, postedBy }) => {
             </Flex>
           </Flex>
 
-          <Text fontSize={"sm"}>{post.text}</Text>
+          <Text color={"black"} fontSize={"sm"}>
+            {post.text}
+          </Text>
           {post.img && (
             <Box
               borderRadius={6}

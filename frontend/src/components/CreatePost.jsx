@@ -89,19 +89,73 @@ const CreatePost = () => {
   };
   return (
     <>
-      <Button
+      {/* <Button
         _hover={{
           bg: "blue.200",
         }}
         position={"fixed"}
-        bottom={10}
-        right={5}
+        // ml={{ base: "17%", md: "8%" }}
+        // top={{ base: "25.5%", md: "28.5%" }}
         bg={useColorModeValue("blue.300", "blue.400")}
         onClick={onOpen}
-        size={{ base: "sm", sm: "md" }}
+        size={{ base: "sm", sm: "sm" }}
       >
-        <AddIcon />
+        Create Post
+      </Button> */}
+
+      {/* Create Post Button for extra small devices */}
+      <Button
+        _hover={{
+          bg: "blue.200",
+        }}
+        ml={{ base: "10%", xs: "12%" }}
+        top={{ base: "20%", xs: "22.5%" }}
+        bg={useColorModeValue("blue.300", "blue.400")}
+        onClick={onOpen}
+        size="sm"
+        display={{ base: "flex", sm: "none" }}
+        paddingX="4"
+        paddingY="2"
+        fontSize="xs" // smaller font size for extra small devices
+        width="fit-content"
+      >
+        Create Post
       </Button>
+
+      {/* Create Post Button for small devices */}
+      <Button
+        _hover={{
+          bg: "blue.200",
+        }}
+        ml={{ base: "15%", sm: "17%" }}
+        top={{ base: "23%", sm: "25.5%" }}
+        bg={useColorModeValue("blue.300", "blue.400")}
+        onClick={onOpen}
+        size="sm"
+        display={{ base: "none", sm: "flex", md: "none" }}
+        paddingX="9"
+        paddingY="2"
+        fontSize="sm"
+        width="fit-content"
+      >
+        Create Post
+      </Button>
+
+      {/* Create Post Button for medium and larger devices */}
+      <Button
+        _hover={{
+          bg: "blue.200",
+        }}
+        ml={{ base: "20%", md: "8%" }}
+        top={{ base: "25%", md: "28.5%" }}
+        bg={useColorModeValue("blue.300", "blue.400")}
+        onClick={onOpen}
+        size="sm"
+        display={{ base: "none", md: "flex" }}
+      >
+        Create Post
+      </Button>
+
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
 

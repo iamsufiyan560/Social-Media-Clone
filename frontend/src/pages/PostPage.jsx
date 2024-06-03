@@ -116,10 +116,10 @@ const PostPage = () => {
           borderRadius={6}
           overflow={"hidden"}
           border={"1px solid"}
-          borderColor={"gray.light"}
+          backgroundSize="cover"
           className="post-image-container"
         >
-          <Image src={currentPost.img} w={"full"} />
+          <Image className="post-image" src={currentPost.img} w={"full"} />
         </Box>
       )}
 
@@ -127,17 +127,18 @@ const PostPage = () => {
         <Actions post={currentPost} className="post-image" />
       </Flex>
 
-      <Divider my={4} />
+      <Divider border={"1px"} borderColor="teal" my={4} />
 
       <Flex justifyContent={"space-between"}>
         <Flex gap={2} alignItems={"center"}>
           <Text fontSize={"2xl"}>👋</Text>
-          <Text color={"gray.light"}>Get the app to like, reply and post.</Text>
+          <Text color={"black"}>Get the app to like, reply and post.</Text>
         </Flex>
-        <Button>Get</Button>
+        <Button border={"1px solid black"}>Get</Button>
       </Flex>
 
-      <Divider my={4} />
+      <Divider border={"1px"} borderColor="teal" my={4} />
+
       {currentPost.replies.map((reply) => (
         <Comment
           key={reply._id}

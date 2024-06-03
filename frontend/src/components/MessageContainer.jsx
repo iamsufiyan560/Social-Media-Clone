@@ -133,9 +133,12 @@ const MessageContainer = () => {
   return (
     <>
       <Flex
+        backgroundImage="url('/1.jpg')"
+        backgroundSize="cover"
+        backgroundPosition="center"
         display={isMobile ? { base: "none", md: "flex" } : "flex"}
         flex="70"
-        bg={useColorModeValue("#CBF6F6", "#0E5050")}
+        // bg={useColorModeValue("grey", "#0E5050")}
         borderRadius={"15"}
         p={2}
         flexDirection={"column"}
