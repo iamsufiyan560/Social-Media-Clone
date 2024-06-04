@@ -11,6 +11,7 @@ import { v2 as cloudinary } from "cloudinary";
 
 dotenv.config();
 connectDB();
+job.start();
 
 const PORT = process.env.PORT || 5000;
 const __dirname = path.resolve();
