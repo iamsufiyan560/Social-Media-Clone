@@ -1,14 +1,14 @@
 # Home Page
 
-![Home Page](./Frontend/public/Screenshot%202024-06-11%20124155.png)
+![Home Page](./frontend/public/Screenshot%202024-06-11%20124155.png)
 
 # Profile Page
 
-![Profile Page](./Frontend/public/Screenshot%202024-06-11%20124849.png)
+![Profile Page](./frontend/public/Screenshot%202024-06-11%20124849.png)
 
 # Chat Page
 
-![Chat Page](./Frontend/public/Screenshot%202024-06-11%20125150.png)
+![Chat Page](./frontend/public/Screenshot%202024-06-11%20125150.png)
 
 # Threads App 🧵
 
