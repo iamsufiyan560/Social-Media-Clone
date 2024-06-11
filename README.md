@@ -1,10 +1,10 @@
 # Home Page
 
-![Home Page](./frontend/public/Screenshot%202024-06-11%20124155.png)
+![Home Page](./frontend/public/Screenshot%202024-06-11%20200202.png)
 
 # Profile Page
 
-![Profile Page](./frontend/public/Screenshot%202024-06-11%20124849.png)
+![Profile Page](./frontend/public/Screenshot%202024-06-11%20200532.png)
 
 # Chat Page
 
