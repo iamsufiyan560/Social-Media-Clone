@@ -1,3 +1,15 @@
+# Home Page
+
+![Home Page](./Frontend/public/Screenshot%202024-06-11%20124155.png)
+
+# Profile Page
+
+![Profile Page](./Frontend/public/Screenshot%202024-06-11%20124849.png)
+
+# Chat Page
+
+![Chat Page](./Frontend/public/Screenshot%202024-06-11%20125150.png)
+
 # Threads App 🧵
 
 Welcome to the Threads App, a modern social media platform for seamless communication and real-time chat functionality!
@@ -32,48 +44,49 @@ To get started with Threads App, follow these simple steps:
 
 1. **Clone the Repository**:
 
-    ```bash
-    git clone https://github.com/iamsufiyan560/threads-clone.git
-    cd threads-app
-    ```
+   ```bash
+   git clone https://github.com/iamsufiyan560/threads-clone.git
+   cd threads-app
+   ```
 
 2. **Install Dependencies**:
 
-    ```bash
-    cd backend
-    npm install
-    cd ../frontend
-    npm install
-    ```
+   ```bash
+   cd backend
+   npm install
+   cd ../frontend
+   npm install
+   ```
 
 3. **Set up Environment Variables**:
 
-    Create a `.env` file in the server directory and add the required environment variables.
-    ```bash
-    PORT = 3000
-      MONGO_URI = ""
+   Create a `.env` file in the server directory and add the required environment variables.
+
+   ```bash
+   PORT = 3000
+     MONGO_URI = ""
    JWT_SECRET = ''
    CLOUDINARY_CLOUD_NAME = ""
    CLOUDINARY_API_KEY = ""
    CLOUDINARY_API_SECRET = ""
-    
-    ```
 
-5. **Run the Application**:
+   ```
 
-    Start the server and client applications by running the following commands:
+4. **Run the Application**:
 
-    ```bash
-    # Terminal 1: Start the server
-    cd backend
-    npm run dev
-    ```
+   Start the server and client applications by running the following commands:
 
-    ```bash
-    # Terminal 2: Start the client
-    cd frontend
-    npm run dev
-    ```
+   ```bash
+   # Terminal 1: Start the server
+   cd backend
+   npm run dev
+   ```
+
+   ```bash
+   # Terminal 2: Start the client
+   cd frontend
+   npm run dev
+   ```
 
 ## Usage
 
