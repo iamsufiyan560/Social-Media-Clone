@@ -10,13 +10,13 @@
 
 ![Chat Page](./frontend/public/Screenshot%202024-06-11%20125150.png)
 
-# Threads App 🧵
+# CONNECTVERSE 🧵
 
-Welcome to the Threads App, a modern social media platform for seamless communication and real-time chat functionality!
+Welcome to the ConnectVerse  App, a modern social media platform for seamless communication and real-time chat functionality!
 
 ## Project Overview
 
-Threads App is designed to facilitate smooth communication and interaction between users through advanced features and a user-friendly interface. Whether you're connecting with friends, sharing updates, or engaging in real-time conversations, Threads App provides a seamless experience for all your social networking needs.
+This App is designed to facilitate smooth communication and interaction between users through advanced features and a user-friendly interface. Whether you're connecting with friends, sharing updates, or engaging in real-time conversations, Threads App provides a seamless experience for all your social networking needs.
 
 ## Features
 
@@ -25,9 +25,9 @@ Threads App is designed to facilitate smooth communication and interaction betwe
 - **Secure Authentication**: Enjoy secure access to your account with advanced authentication methods.
 - **Dynamic Feed**: Stay updated with the latest posts and updates from your connections.
 - **Interactive Messaging**: Send messages, react to posts, and stay connected with your network.
-- **Responsive Design**: Access Threads App seamlessly across devices with a fully responsive design.
+- **Responsive Design**: Access ConnectVerse App seamlessly across devices with a fully responsive design.
 - **Dark Mode Support**: Customize your app experience with built-in dark mode support.
-- **Effortless Deployment**: Easily deploy Threads App using your preferred hosting platform.
+- **Effortless Deployment**: Easily deploy ConnectVerse App using your preferred hosting platform.
 
 ## Technologies Used
 
@@ -40,13 +40,13 @@ Threads App is designed to facilitate smooth communication and interaction betwe
 
 ## Installation
 
-To get started with Threads App, follow these simple steps:
+To get started with ConnectVerse App, follow these simple steps:
 
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/iamsufiyan560/threads-clone.git
-   cd threads-app
+   git clone https://github.com/iamsufiyan560/Social-Media-Clone.git
+   cd ConnectVerse-app
    ```
 
 2. **Install Dependencies**:
@@ -98,7 +98,7 @@ To get started with Threads App, follow these simple steps:
 
 ## Contributing
 
-Contributions to Threads App are welcome! Feel free to submit pull requests with new features, enhancements, or bug fixes.
+Contributions to ConnectVerse App are welcome! Feel free to submit pull requests with new features, enhancements, or bug fixes.
 
 ## License
 
