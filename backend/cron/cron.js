@@ -3,7 +3,7 @@ import https from "https";
 
 const URL = "https://social-media-clone-9edw.onrender.com";
 
-const job = new cron.CronJob("*/14 * * * *", function () {
+const jobs = new cron.CronJob("*/14 * * * *", function () {
   https
     .get(URL, (res) => {
       if (res.statusCode === 200) {
@@ -17,4 +17,4 @@ const job = new cron.CronJob("*/14 * * * *", function () {
     });
 });
 
-export default job;
+export default jobs;
